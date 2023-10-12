@@ -6,24 +6,19 @@
 #         self.right = right
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-
-        # base case
+        
+        # base cases
         if not p and not q:
             return True
-        elif not p or not q:
+        if not p or not q:
             return False
         
-        # nodes not equal
+        # checking equality
         if p.val != q.val:
             return False
         
-        result = self.isSameTree(p.left,q.left) and self.isSameTree(p.right,q.right)
+        left = self.isSameTree(p.left,q.left)
+        right = self.isSameTree(p.right,q.right)
 
-        return result
+        return left and right
 
-        '''
-        recursion -- DFS; compare each node values
-
-        handle the base cases
-        '''
-        
