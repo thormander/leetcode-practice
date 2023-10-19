@@ -1,22 +1,25 @@
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-
-        dp = [amount + 1] * (amount + 1) # just setting max amount
-
-        # base case
-        dp[0] = 0
-
-        for i in range(1,amount+1):
+        cache = [float("inf")] * (amount + 1)
+        cache[0] = 0 # base case
+        
+        for cur_amount in range(1,amount+1):
             for coin in coins:
-                if i - coin >= 0:
-                    dp[i] = min(dp[i],1 + dp[i - coin])
+                # valid coin ?
+                if (cur_amount - coin) > -1:
+                    cache[cur_amount] = min(cache[cur_amount], 1 + cache[cur_amount - coin])
         
-        if dp[amount] == amount + 1:
-            return -1
+        if cache[amount] != float("inf"):
+            return cache[amount]
         else:
-            return dp[amount]
-        
+            return -1
+
+
+
 
         '''
-        fewest amount; if nothing, then -1
+        DP - bottom up; determine how to get to amount of 0,1,2...amount
+        need a cache - amount + 1 (cover from 0 -> amount inclusive)
+
+        valid if amount - current coin is non negative
         '''
