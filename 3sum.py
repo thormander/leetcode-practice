@@ -1,52 +1,37 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        answer = []
+        result = []
         nums.sort()
 
-        for i,num in enumerate(nums):
-            if i > 0 and num == nums[i-1]:
-                continue # skipping if same
-            
+        for i,v in enumerate(nums):
+            # handle duplicates
+            if i > 0 and nums[i-1] == v:
+                continue
+
+            # 2 pointer method
             left = i + 1
             right = len(nums) - 1
-
             while left < right:
-                currentSum = nums[left] + nums[right]
+                current_sum = v + nums[left] + nums[right]
 
-                if currentSum + num < 0:
+                if current_sum == 0:
+                    result.append([v,nums[left],nums[right]])
+                    # update pointers / handle duplicate
                     left += 1
-                elif currentSum + num > 0:
+                    while nums[left] == nums[left - 1] and left < right:
+                        left += 1
+
+                elif current_sum > 0:
                     right -= 1
                 else:
-                    answer.append([num,nums[left],nums[right]])
                     left += 1
-                    while left < right and nums[left] == nums[left-1]:
-                        left += 1
-                
         
-        return answer
-
-
-
-
+        return result
+                    
 
         '''
-        sort the array nlogn
-
-        break this down to where on i, we solve j and k like 2 sum
-            - where (j + k) + i == 0
-        loop through numsSorted:
-            get our i value
-            skip if same as previous
-
-            l,r pointers
-            while l < r:
-                increment if currentSum+i less than 0
-                decrement if currentSum+i more than 0
-                if == 0:
-                    append to answer
-                
+        sort nums first --> allows us to use 2 pointers
+            apply 2 sum to 3 sum
         
-        return answer
 
         '''
