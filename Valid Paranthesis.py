@@ -1,26 +1,28 @@
 class Solution:
     def isValid(self, s: str) -> bool:
+
+        valid = {')':'(', '}':'{',']':'['}
+        
         stack = []
-        hashmap = {')':'(','}':'{',']':'['}
 
         for char in s:
-            # base case
-            if not stack and char in hashmap:
-                return False
-            
-            if stack and char in hashmap and stack[-1] == hashmap[char]:
-                stack.pop()
+            # case of closing
+            if char in valid:
+                if stack and stack[-1] == valid[char]:
+                    stack.pop() # valid pair
+                else:
+                    return False
+            # case of open
             else:
                 stack.append(char)
         
-        if stack:
-            return False
-        else:
+        if not stack:
             return True
-         
-        '''
-         a stack; (remove complete pairs)
-         map -> store the corresponding pair
+        else:
+            return False
+            
 
-         we know if its true, then there should not be anything in the stack
-         '''
+
+        '''
+        make a dictionary: store the pairs of parantheses where a close correposnds to open
+        '''
