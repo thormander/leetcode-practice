@@ -1,38 +1,41 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        hashmap = {} # num : occurance
-        
-        # set up our bucket sort
-        bucket = []
-        for i in range(len(nums)+1):
-            bucket.append([])
-        
 
-        # count occurances
+        hashmap = {} # number, occurance
+
+        # get the counts
         for num in nums:
             if num in hashmap:
                 hashmap[num] += 1
             else:
                 hashmap[num] = 1
-        
-        # add values to our bucket
-        for key, value in hashmap.items():
-            bucket[value].append(key)
+
+        dataStructure = [[] for i in range(len(nums) + 1)]
+
+        # populating our ds
+        for num, count in hashmap.items():
+            dataStructure[count].append(num)
         
         result = []
-
-        for i in range(len(bucket)-1,0,-1):
-            for num in bucket[i]:
+        # go in reverse
+        for i in range(len(dataStructure) - 1, -1, -1):
+            for num in dataStructure[i]:
                 result.append(num)
-            
-            if len(result) == k:
-                return result
-            
-            
+                
+                if len(result) == k:
+                    return result
+
+
         
 
-        '''
-        map for counts
+'''
+[1,2,3,4,...]
+ 1 2 3 ...
+ index = our count of number
 
-        bucket sort -> where index represents occurances and value is the actual number
-        '''
+as we count the frequencies, think of the index as the current frequency
+ - hashmap to store the counts
+
+[3, 2, 1]
+<-------- loop reverse order k amount increments
+'''
