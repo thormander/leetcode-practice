@@ -1,27 +1,31 @@
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        hashset = set(nums)
-        result = 0
+        hashset = set(nums) # first add to a set
+        longest = 0
 
-        for num in hashset:
-            # if it is start
-            if num - 1 not in hashset:
-                seqLength = 0
-                temp = num
-                while temp in hashset:
-                    seqLength += 1
-                    temp += 1
-                result = max(result,seqLength)
-            else:
+        for num in nums:
+            # skip any non starting nums of a sequence
+            if (num - 1) in hashset:
                 continue
-        
-        return result
             
-
+            #start of a subsequence
+            currentLength = 1
+            curr = num
+            while (curr + 1) in hashset:
+                currentLength += 1
+                curr += 1
+            
+            longest = max(longest,currentLength)
         
-        '''
-        subsequence? --> if num - 1 is in nums, then that is not start
-            if it isn't then we have the start of a subsequence, we can count length
+        return longest
 
-        USE A SET!!! --> takes too long otherwise
-        '''
+'''
+figure out if we are at the start of a sequence or not
+- curreent number we are on, check if there is one to its left (ie. we want to check if there is one less)
+- if we are not on current...skip
+
+otherwise
+if we are, we can start the longest subsequence count.
+
+use a hashset
+'''
