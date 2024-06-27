@@ -1,37 +1,35 @@
 class Solution:
     def isPalindrome(self, s: str) -> bool:
 
-        # pointers
+        clean = ""
+
+        # clean up string s
+        for char in s:
+            if (ord('a') <= ord(char.lower()) <= ord('z')):
+                clean += char.lower()
+            elif (ord('0') <= ord(char) <= ord('9')):
+                clean += char
+            else:
+                continue
+
         left = 0
-        right = len(s) - 1
-
-        # stop after they collide
+        right = len(clean) - 1
+        
+        # check palindrome
         while left < right:
-            # first check if its a valid char
-            if not (ord("a") <= ord(s[left].lower()) <= ord("z") or ord("0") <= ord(s[left].lower()) <= ord("9")):
-                left += 1
-                continue
-            if not (ord("a") <= ord(s[right].lower()) <= ord("z") or ord("0") <= ord(s[right].lower()) <= ord("9")):
-                right -= 1
-                continue
-
-            if (s[left].lower() != s[right].lower()):
+            if clean[left] != clean[right]:
                 return False
             else:
                 left += 1
                 right -= 1
+                continue
         
         return True
 
 
-
-        
-
 '''
-we can use 2 pointers: one at start, one at end
+make sure we are using lowercase
+skip any / remove non alphanumeric characters
 
-compare the char at both pointers: but...
-    make sure it is lowercase,
-    ** need to make sure it is actually a char ** 
-        - otherwise we increment/decrement our pointer
+it CAN include numbers
 '''
