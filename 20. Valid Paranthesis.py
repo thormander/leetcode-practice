@@ -1,19 +1,18 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        compliments = {")":"(","}":"{","]":"["}
+        reference = {')':'(','}':'{',']':'['}
+
         stack = []
 
         for char in s:
-            if (not stack) and (char in compliments.keys()):
-                return False
-            
-            # case we have opening, then just add to stack
-            if (char in compliments.values()):
+            # check if open
+            if char in reference.values():
                 stack.append(char)
-            elif (stack[-1] == compliments[char]):
-                stack.pop()
-            else:
-                return False
+            else: # when we hit a closing
+                if (stack) and (reference[char] == stack[-1]):
+                    stack.pop()
+                else:
+                    return False
         
         if not stack:
             return True
@@ -23,7 +22,14 @@ class Solution:
 
 
 '''
-use a stack to store incoming chars,
+know the pairs --> dictionary/map key: *closing* | value: *opening*
 
-as we close them, remove from stack
+iterate through
+ - stack...add opens to it
+ - when we hit a closing --> check top of stack and compare to value in map.
+ - if equal remove from stack
+ - otherwise, return False
+
+if our stack is empty --> reutrn true 
 '''
+        
