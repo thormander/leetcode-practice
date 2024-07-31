@@ -5,22 +5,26 @@ class MinStack:
         self.minstack = []
 
     def push(self, val: int) -> None:
+        if not self.stack:
+            self.minstack.append(val) # default to current val if its empty
+        
         self.stack.append(val)
-        if not self.minstack:
-            self.minstack.append(val)
-        elif self.minstack[-1] > val:
-            self.minstack.append(val)
-        else:
+
+        # keep min same
+        if self.minstack[-1] <= val:
             self.minstack.append(self.minstack[-1])
+        else:
+            self.minstack.append(val) # case where last min was greater
 
 
     def pop(self) -> None:
         self.stack.pop()
         self.minstack.pop()
-        
+
     def top(self) -> int:
         return self.stack[-1]
         
+
     def getMin(self) -> int:
         return self.minstack[-1]
         
@@ -31,4 +35,8 @@ class MinStack:
 # obj.push(val)
 # obj.pop()
 # param_3 = obj.top()
+
 # param_4 = obj.getMin()
+
+# [0 1 2 3      ] top
+# [0 0 0 0      ]
