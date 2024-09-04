@@ -1,30 +1,22 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        l = 0
-        r = 1
-        maxProfit = 0
+        left = 0
+        right = 1
 
-        while r < len(prices):
-            if prices[l] < prices[r]:
-                profit = prices[r] - prices[l]
-                maxProfit = max(maxProfit,profit)
+        result = 0
+
+        while right < len(prices):
+            if prices[left] < prices[right]:
+                result = max(result,(prices[right]-prices[left]))
             else:
-                l = r
-
-            r += 1
+                left = right
+            
+            right += 1
         
-        return maxProfit
+        return result
 
-        '''
-        try 2 pointers
-        keep them together (side by side)
-
-        r - l = a value. (compare to max)
-        if right < left:
-            increment left
-            increment right
-            calculate difference
-        else:
-            increment right
-            calculate difference
-        '''
+        
+'''
+sliding window
+2 pointers
+'''
