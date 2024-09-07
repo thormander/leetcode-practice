@@ -1,33 +1,31 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        
-        result = 0
         hashset = set()
-        l = 0
-        
-        for r in range(len(s)):
-            while s[r] in hashset:
-                hashset.remove(s[l])
-                l += 1
-            hashset.add(s[r])
-            result = max(result, len(hashset))
+
+        left = 0
+        right = 0
+
+        result = 0
+
+        while right < len(s):
+            # handle duplicate
+            while s[right] in hashset:
+                hashset.remove(s[left])
+                left += 1
+            # check length
+            result = max(result,(right-left)+1)
+
+            hashset.add(s[right])
+            right += 1
         
         return result
             
 
 
-        '''
-        2 pointers; use a hashset
+'''
+sliding window
+"abcabcbb"
+ lr
 
-        set our l to 0
-
-        for r in s
-            check if r in hashset:
-                set.remove(l)
-                l += 1
-            else:
-                go ahead and add r to set
-            check for max and update our running total
-
-
-        '''
+hashset to check for duplicates
+'''
