@@ -1,37 +1,35 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = ListNode()
-        tail = dummy
+        placeholder = ListNode()
+        p = placeholder
 
         while list1 and list2:
             if list1.val < list2.val:
-                tail.next = list1
+                p.next = list1
                 list1 = list1.next
-            elif list1.val > list2.val:
-                tail.next = list2
+            else:
+                p.next = list2
                 list2 = list2.next
-            else: # equality
-                tail.next = list1
-                list1 = list1.next
+            
+            p = p.next
         
-            tail = tail.next
-
+        # case where one is longer than the other (we jsut add it at the end)
         if list1:
-            tail.next = list1
-        elif list2:
-            tail.next = list2
-        
-        return dummy.next
+            p.next = list1
+        else:
+            p.next = list2
+
+        return placeholder.next
 
 
-        '''
-        need dummy node for output list
 
-        compare values between l1 and l2:
-            insert l1 if less
-            insert l2 if less
+'''
+start a new list node, for our pupose use a placeholder or dummy
 
-        make sure to add remaing nodes if l1 or l2 is longer
-
-        return dummy.next
-        '''
+____ -> 1 -> 1 -> 2 -> 3
+'''
