@@ -8,51 +8,53 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        # get middle of list (slow = middle)
-        slow = head
+        # 1. find midpoint of our linked list
         fast = head.next
+        slow = head
+
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
-        tempSplit = slow.next
-        slow.next = None # split list
-
-        # reverse second half
+        # 2. reverse our second half (slow.next is start of our second half)
         prev = None
-        cur = tempSplit # head of second half
-        while cur:
-            tempSecond = cur.next
-            cur.next = prev
-            prev = cur
-            cur = tempSecond
+        current = slow.next
+        slow.next = None
 
-        # merge back together
-        left = head
+        while current:
+            temp = current.next
+            current.next = prev
+            prev = current
+            current = temp
+        
+        # 3. merge back together
         right = prev
+        left = head
         while right:
             tempL = left.next
             tempR = right.next
+
             left.next = right
             right.next = tempL
-            # update pointers
             left = tempL
             right = tempR
 
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+
+'''
+we cant use extra memory
+
+one pointer at start and end
+ - simply shift the end and fix the pointers...
+
+1. Find midpoint of our linked list (fast and slow pointer method)
+2. need to reverse the last half so we can go in reverse
+3. mere the two together makign sure we point them properley
+
+- edge case: make sure end of the first half points to null
+'''
         
-
-
-
-
-
-        '''
-        find the middle of the list:
-            if odd, should not affect outcome
-            use a slow/fast pointer that increments up until fast encounters null and fast.next is null
-        
-        split the list by making middle point to null
-
-        reverse the second half in order to go in decreasing order
-
-        merge the 2 lists back together
-        '''
