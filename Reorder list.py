@@ -8,53 +8,44 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        # 1. find midpoint of our linked list
-        fast = head.next
-        slow = head
 
+        # 1. find midpoint (slow and fast pointer)
+        slow = head
+        fast = head.next
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-        
-        # 2. reverse our second half (slow.next is start of our second half)
-        prev = None
-        current = slow.next
-        slow.next = None
+        # after this, our slow should be at our midpoint
 
-        while current:
-            temp = current.next
-            current.next = prev
-            prev = current
-            current = temp
-        
-        # 3. merge back together
-        right = prev
-        left = head
+        # 2. reverse right half
+        right = slow.next
+        slow.next = None
+        dummy = None
         while right:
-            tempL = left.next
-            tempR = right.next
+            temp = right.next
+            right.next = dummy
+            dummy = right
+            right = temp
+
+        # 3. Do the rearrangeing
+        left = head
+        right = dummy
+        while right:
+            temp1 = left.next
+            temp2 = right.next
 
             left.next = right
-            right.next = tempL
-            left = tempL
-            right = tempR
+            right.next = temp1
+            left = temp1
+            right = temp2
 
 
-
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-
-
+        
 '''
-we cant use extra memory
-
-one pointer at start and end
- - simply shift the end and fix the pointers...
-
-1. Find midpoint of our linked list (fast and slow pointer method)
-2. need to reverse the last half so we can go in reverse
-3. mere the two together makign sure we point them properley
-
-- edge case: make sure end of the first half points to null
+1. find the midpoint
+ - need to point midpoint at null !
+2. need to reverse it (but not the whole thing) up to the midpoint
+3. Change the pointers to fit logic in the question
+ - think of left and right sie start at both and come inwards
 '''
         
