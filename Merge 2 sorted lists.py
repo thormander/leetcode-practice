@@ -5,31 +5,37 @@
 #         self.next = next
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        placeholder = ListNode()
-        p = placeholder
+        l1 = list1
+        l2 = list2
 
-        while list1 and list2:
-            if list1.val < list2.val:
-                p.next = list1
-                list1 = list1.next
+        dummy = ListNode()
+        d = dummy
+
+        while l1 and l2:
+            if l1.val < l2.val:
+                d.next = l1
+                l1 = l1.next
+                d = d.next
             else:
-                p.next = list2
-                list2 = list2.next
-            
-            p = p.next
-        
-        # case where one is longer than the other (we jsut add it at the end)
-        if list1:
-            p.next = list1
-        else:
-            p.next = list2
+                d.next = l2
+                l2 = l2.next
+                d = d.next  
 
-        return placeholder.next
+        # handle case of one list longer than the other
+        if l1:
+            d.next = l1
+        elif l2:
+            d.next = l2
+
+        return dummy.next            
+            
 
 
 
 '''
-start a new list node, for our pupose use a placeholder or dummy
+2 lists --> 1 list but sorted (2 lists are already sorted)
 
-____ -> 1 -> 1 -> 2 -> 3
+traverse both lists at the same time
+ - compare the values between the pointers, whatever is less we add to the merged list
+ - need a temp or dummy node to start our initial merged list.
 '''
