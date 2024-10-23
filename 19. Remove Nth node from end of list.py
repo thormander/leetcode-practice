@@ -5,37 +5,34 @@
 #         self.next = next
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        placeholderX = ListNode(0,head)
-
-        left = placeholderX
+        dummy = ListNode(0,head)
+        left = dummy
         right = head
         
-        # get our right pointer in position
-        while n != 0 and right:
+        # postiion our right pointer
+        while n > 0 and right:
             right = right.next
             n -= 1
-
-        # increment both pointers by 1 now to get left pointer in position
+        
+        # after this, our pointers are in place, we shift both until right is null
         while right:
             left = left.next
             right = right.next
         
-        # 'remove' nth node
+        # delete our nth node
         left.next = left.next.next
-        return placeholderX.next
-        
 
-        
+        return dummy.next # exclude dummy node
 
-        
+
 
 '''
-2 pointers -- one pass
-  [1,2,3,4,5] Null
-         L     R
-        
-But, we actually need to be at the node before it... so we need to use a placeholder node 
+reverse the list, but we would need to do it again
+- not ideal
 
- X [1,2,3,4,5] Null
-        L       R
+d [1,2,3,4,5]
+        L    R 
+
+need to start L before the list (or a dummy node)
+ - keep r in original spot, but left should start at the dummy
 '''
