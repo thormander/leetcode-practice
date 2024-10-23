@@ -9,35 +9,34 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+
+        hashmap = {None : None} # old node : new node
+
+        #1. first pass, just make copies and map old to clones
+        p = head
+        while p:
+            clone = Node(p.val)
+            hashmap[p] = clone
+            p = p.next
+
+        #2. second pass, fix pointers
+        p = head
+        while p:
+            clone = hashmap[p]
+            clone.next = hashmap[p.next]
+            clone.random = hashmap[p.random]
+            p = p.next
         
-        hashmap = {None : None} # old node to new node
-
-        pointer = head
-        while pointer:
-            newNode = Node(pointer.val)
-            hashmap[pointer] = newNode
-
-            pointer = pointer.next
-
-        pointer = head
-        while pointer:
-            hashmap[pointer].next = hashmap[pointer.next]
-            hashmap[pointer].random = hashmap[pointer.random]
-            
-            pointer = pointer.next
-
         return hashmap[head]
-
-
-        '''
-        copy --> use hash map to help
-
-        2 passes:
         
-        first:
-            map original to copy
-            and create the new nodes
-        
-        second:
-            update node properites such as next and random
-        '''
+'''
+deep copy
+- node can have 2 pointers, one oints to next and another random
+
+1. pass through linked list, and make node copies ONLY
+ - no linking, but we can use a map to link our old node to the copy
+ - need some way to look up what the old node points at
+
+2. second pass do the links for the copies based on old nodes; 
+ - reference our map to help us with this
+'''
