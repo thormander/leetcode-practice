@@ -9,43 +9,53 @@ class Solution:
         Do not return anything, modify head in-place instead.
         """
 
-        # 1. find midpoint (slow and fast pointer)
+        # 1. find midpoint of the list
         slow = head
         fast = head.next
+
         while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-        # after this, our slow should be at our midpoint
+            slow = slow.next # 1x
+            fast = fast.next.next # 2x
+        
+        # after this while loop, we have our midpoint at slow 
+        # so start of right side is at slow.next        
 
-        # 2. reverse right half
-        right = slow.next
-        slow.next = None
+        # 2. reverse the right side
         dummy = None
-        while right:
-            temp = right.next
-            right.next = dummy
-            dummy = right
-            right = temp
+        curr = slow.next
+        slow.next = None # handle edge case
 
-        # 3. Do the rearrangeing
+        while curr:
+            temp = curr.next
+            curr.next = dummy
+            dummy = curr
+            curr = temp
+        
+        # 3. merge them together
         left = head
         right = dummy
-        while right:
-            temp1 = left.next
-            temp2 = right.next
 
+        while right: # our right side will be smaller
+            templ = left.next
+            tempr = right.next
+
+            # merge
             left.next = right
-            right.next = temp1
-            left = temp1
-            right = temp2
+            right.next = templ
 
-
+            right = tempr
+            left = templ
         
+        return head
+
+
+
+
+
 '''
-1. find the midpoint
- - need to point midpoint at null !
-2. need to reverse it (but not the whole thing) up to the midpoint
-3. Change the pointers to fit logic in the question
- - think of left and right sie start at both and come inwards
+1. find the midpoint (fast slow pointer)
+2. reverse right side of the list
+    - start of right side will be the ending node; but also case where we need to point mid at None also
+3. do the merge
 '''
         
