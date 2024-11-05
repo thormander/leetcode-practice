@@ -1,0 +1,34 @@
+class Solution:
+    def mergeAlternately(self, word1: str, word2: str) -> str:
+
+        p1 = 0
+        p2 = 0
+        result = []
+        lenWord1 = len(word1)
+        lenWord2 = len(word2)
+
+        while p2 < lenWord2 and p1 < lenWord1:
+            result.append(word1[p1])
+            result.append(word2[p2])
+            p1 += 1
+            p2 += 1
+        
+        resultString = "".join(result)
+
+        if p2 < lenWord2:
+            resultString += word2[p2:]
+        elif p1 < lenWord1:
+            resultString += word1[p1:]
+        
+        return resultString
+
+
+        
+
+'''
+merge by alternating
+
+start with word 1; append remaining letters
+
+
+'''
