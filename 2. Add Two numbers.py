@@ -5,45 +5,61 @@
 #         self.next = next
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode()
+        p = dummy
 
-        numl1 = ""
-        numl2 = ""
+        carryover = 0
+        while l1 or l2:
+            #1. get values (default 0 if null)
+            val1 = 0
+            val2 = 0
+            if l1:
+                val1 = l1.val 
+            if l2:
+                val2 = l2.val
 
-        # traverse  both lists
-        pl1 = l1
-        pl2 = l2
+            #2. do the addtion
+            sumNodes = val1 + val2 + carryover
+            # 6 + 6 = 12 --> carryover is 1
+            carryover = sumNodes // 10 # get 10's place
+            valPutIn = sumNodes % 10 # get ones place
 
-        while pl1:
-            numl1 = str(pl1.val) + numl1
-            pl1 = pl1.next
+            #3. add to our result linked list
+            p.next = ListNode(valPutIn)
+
+            #4. shift pointers
+            p = p.next
+            if l1:
+                l1 = l1.next
+            else:
+                l1 = None
+
+            if l2:
+                l2 = l2.next
+            else:
+                l2 = None
         
-        while pl2:
-            numl2 = str(pl2.val) + numl2
-            pl2 = pl2.next
-
-        sumInt = int(numl1) + int(numl2)
-        
-        # get to a list
-        sumLists = list(str(sumInt))
-
-        # construct our linked list
-        dummy = ListNode(0)
-        d = dummy
-        for i in range(len(sumLists)-1,-1,-1):
-            newNode = ListNode(int(sumLists[i])) # set value
-            d.next = newNode
-            d = newNode
+        # handle case of leftover carryover
+        if carryover != 0:
+            p.next = ListNode(carryover)
         
         return dummy.next
+        
 
 
 '''
-reverse order, starting from ones place
+go thorugh each list a
 
-pointer at start of both, we can add as we go. 
- - handling carry overs
+add it like we do elementry style with a carryover
 
-traverse both, get the numbers and add them for result, and then
-make it a string and split it to a list
-807 -> [8,0,7] --> then we want to go in reverse order and create a linked list
+new list for our result --> dummy node
+
+while l1 or l2:
+    1. first get the values
+    2. do the addtion with carryover
+    3. shift pointers
+
+handle remaining carryover if we have
+
+!! Handle cases where a node is null
 '''
