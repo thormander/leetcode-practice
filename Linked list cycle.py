@@ -6,27 +6,25 @@
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        
         slow = head
         fast = head
 
         while fast and fast.next:
+            
             slow = slow.next
             fast = fast.next.next
-            if fast == slow:
+
+            if slow == fast:
                 return True
+        
         return False
 
-        '''
-        faster
 
-        use slow/fast pointer
-
-        set both to head, then just increment one 2x as much
-
-        while loop through until one of the pointers hit null:
-            if fast == slow:
-                theres a cycle
-                *Make sure to check after incrementing !!!*
-
-        '''
+'''
+to check if we have a cycle
+ - slow and fast pointer strat
+ - slow increments once
+ - fast incremets twice
+eventually they will hit each other so we know there is a cycle
+'''
+        
