@@ -6,28 +6,27 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-
-        def DFS(root):
-            # base case
-            if not root:
+        
+        # recursive dfs, return [is it balanced (T/F) , height]
+        def dfs(node):
+            if node == None:
                 return [True,0]
-
-            left = DFS(root.left)
-            right = DFS(root.right)
-
             
-            # say it is true when height not greater than 1, and subtress are also valid
-            balanced = False  
-            if abs(left[1] - right[1]) < 2 and left[0] and right[0]:
-                balanced = True
+            left = dfs(node.left)
+            right = dfs(node.right)
 
-            return [balanced, 1 + max(left[1],right[1])]
+            isItBalanced = None # True or False
+            if (left[0] == True and right[0] == True) and (abs(left[1] - right[1]) <= 1):
+                isItBalanced = True
+            else:
+                 isItBalanced = False
             
-            
-        return DFS(root)[0]
+            return [isItBalanced,max(left[1],right[1])+1]
+        
+        result = dfs(root)
 
-        '''
-        use DFS, start at bottom
-        determine whether it is balanced pass [bool,height]
-        '''
+        if result[0] == True:
+            return True
+        else:
+            return False
         
