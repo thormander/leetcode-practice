@@ -6,27 +6,43 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        
-        # recursive dfs, return [is it balanced (T/F) , height]
-        def dfs(node):
-            if node == None:
-                return [True,0]
-            
-            left = dfs(node.left)
-            right = dfs(node.right)
 
-            isItBalanced = None # True or False
-            if (left[0] == True and right[0] == True) and (abs(left[1] - right[1]) <= 1):
-                isItBalanced = True
-            else:
-                 isItBalanced = False
+        # dfs
+        def dfs(node):
+
+            # handle base case
+            if node == None:
+                return [True,0] 
             
-            return [isItBalanced,max(left[1],right[1])+1]
+            digleft = dfs(node.left)
+            digright = dfs(node.right)
+
+            # is it balanced?
+            balanced = None
+            
+            if (digleft[0] == True and digright[0] == True) and (abs(digleft[1] - digright[1]) <= 1):
+                balanced = True
+            else:
+                balanced = False
+            
+            return [balanced,max(digleft[1],digright[1]) + 1]
         
         result = dfs(root)
 
-        if result[0] == True:
-            return True
-        else:
-            return False
+        return result[0]
+
+
+'''
+start from the bottom --> dfs
+
+want to return not only whether its balance, but also height as we go back up
+ - need to use height to determine if balanced for higher level nodes
+
+recusive dfs:
+    return [True or False, height]
+
+dfs(root)
+
+return the boolean value from the list
+'''
         
