@@ -8,17 +8,31 @@ class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         
         # base cases
-        if not p and not q:
+        if p == None and q == None:
             return True
-        if not p or not q:
+        
+        if p == None or q == None:
             return False
         
-        # checking equality
         if p.val != q.val:
             return False
         
+
         left = self.isSameTree(p.left,q.left)
         right = self.isSameTree(p.right,q.right)
 
-        return left and right
+        if left == False or right == False:
+            return False
+        else:
+            return True
 
+                
+
+'''
+recursive dfs --> go through both trees and just check if the value is the same
+
+base cases:
+ - are they same or different
+ - null?
+
+'''
