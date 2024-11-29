@@ -6,28 +6,42 @@
 #         self.right = right
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        result = []
+
+        if not root:
+            return []
 
         queue = deque()
         queue.append(root)
 
+        result = []
+
         while queue:
-            rightmost = None
+            layer_size = len(queue)
+            for i in range(layer_size):
+                node = queue.popleft()
 
-            for i in range(len(queue)):
-                popped = queue.popleft()
-
-                if popped:
-                    rightmost = popped.val
-                    queue.append(popped.left)
-                    queue.append(popped.right)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+                
+                if i == layer_size - 1:
+                    result.append(node.val)
             
-            if rightmost != None:    
-                result.append(rightmost)
-                    
+
+            
+        
         return result
 
         
-        '''
-        BFS; add right most node for the level 
-        '''
+
+
+        
+
+'''
+essentially, taking right most value for each layer
+
+BFS --> since we need to go layer by layer
+    - first get length of queue then iterate through it --> we know when we are in another layer (or at end of current)
+    - when we reach end of our layer (or after we are done processing it), grab it and add to result list
+'''
