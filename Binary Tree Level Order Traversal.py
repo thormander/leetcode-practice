@@ -6,26 +6,43 @@
 #         self.right = right
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        
-        result = []
+
+        if not root:
+            return []
 
         queue = deque()
         queue.append(root)
 
+        result = []
+
         while queue:
-            levelNodes = []
+            # first grab size of queue
+            levelSize = len(queue)
 
-            for i in range(len(queue)):
-                nodePopped = queue.popleft()
-                if nodePopped:
-                    levelNodes.append(nodePopped.val)
-                    queue.append(nodePopped.left)
-                    queue.append(nodePopped.right)
-            if levelNodes:
-                result.append(levelNodes)
+            layervals = []
 
+            for i in range(levelSize):
+                node = queue.popleft()
+
+                layervals.append(node.val)
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        
+            # after we finish for loop, we are at end of a layer, we can take the snapshot now
+            result.append(layervals)
+        
         return result
-        '''
-        BFS; use deque
-        '''
+
+    
+'''
+level order --> BFS
+
+queue -> deqque
+
+when we finish the layer we are on, take a snapshot of our quue and append it to a result list before we move on to next layer
+
+'''
         
