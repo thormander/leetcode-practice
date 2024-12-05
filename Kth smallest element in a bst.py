@@ -6,33 +6,40 @@
 #         self.right = right
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        count = 0
-        result = None
-        
+        self.index = k
+        self.result = float('inf')
+
         def DFS(node):
             # base case
             if not node:
-                return 
+                return
             
-            # dig far left
             DFS(node.left)
 
-            nonlocal count
-            count += 1
-            
-            if count == k:
-                nonlocal result
-                result = node.val
+            self.index -= 1
+            if self.index == 0:
+                self.result = node.val
                 return
-                
-            
+
             DFS(node.right)
         
         DFS(root)
-        return result
-
-
-        '''
-        DFS down as far left as possible; count up k times and retrun the nodes value
-        '''
+        return self.result
         
+
+'''
+DFS --> idea is dig as far left as possible, which will get us to the smallest value
+
+var = k
+
+DFS:
+
+base cases --> continue, we really just need DFS for traversal
+
+dfs to left,
+
+decrement var by 1 (as we come back up)
+check is k = 0?, if it is return that value
+
+dfs to right side
+'''
