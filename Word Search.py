@@ -1,27 +1,68 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         rows = len(board)
-        cols = len(board[0])
+        columns = len(board[0])
+        
+        visited_cells = set()
 
-        path = set()
-
-        def DFS(r, c, i):
+        def dfs(row,column,index_word):
             # base cases
-            if len(word) == i:
+            if index_word == len(word):
                 return True
-            if r < 0 or c < 0 or r >= rows or c >= cols or word[i] != board[r][c] or (r,c) in path: # bounds
-                return False
             
-            path.add((r,c))
-            # search around current position
-            result = DFS(r+1,c,i+1) or DFS(r-1,c,i+1) or DFS(r,c+1,i+1) or DFS(r,c-1,i+1)
-            path.remove((r,c))
+            # bounds
+            if column < 0 or row < 0 or column >= columns or row >= rows:
+                return False
+            if word[index_word] != board[row][column]:
+                return False
+            if (row,column) in visited_cells:
+                return False
 
+            visited_cells.add((row,column))
+            # recursion/traversal (go up,down,left,or right)
+            result = (dfs(row + 1,column,index_word + 1) or
+                      dfs(row - 1,column,index_word + 1) or
+                      dfs(row,column + 1,index_word + 1) or
+                      dfs(row,column - 1,index_word + 1) 
+                     )
+
+            visited_cells.remove((row,column))
             return result
-
-        for r in range(rows):
-            for c in range(cols):
-                if DFS(r,c,0):
+        
+        for row in range(rows):
+            for col in range(columns):
+                result = dfs(row,col,0)
+                if result == True:
                     return True
         
         return False
+
+'''
+get the dimensions of the matrix
+rows = length of the board
+columns = length of some row
+
+visited = a set to store the cells we visisted
+
+def dfs (column, row, index):
+    if index is same as word length, we know it is there so
+        reutrn true
+    
+    if we are out of bounds
+        return false
+    if the letter is not same as in index
+        return false
+    if the cell is already visited
+        return false
+    
+    add current cell we are on
+    go either up,down,left, or right
+        so 4 calls on the DFS function here
+
+    remove the cell we added previously as we are moving on
+
+we run this dfs on each cell in the matrix
+    if we get a true just return
+
+return false automatically if we get through the loop w/o returning true
+'''
