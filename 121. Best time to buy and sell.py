@@ -1,34 +1,34 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        result = 0
+        # base case
+        if len(prices) == 1:
+            return 0
 
+        result = 0
         left = 0
         right = 1
 
         while right < len(prices):
-            if prices[right] < prices[left]:
+            if prices[left] > prices[right]:
                 left = right
             else:
-                val = prices[right] - prices[left]
-                result = max(result,val)
-            
+                candidate = prices[right] - prices[left]
+                result = max(result,candidate)
             right += 1
+
         
         return result
 
-
-        
-
 '''
-maximize profit -> running max variable for result
+2 pointers
 
-2 pointer
+if val@left > right:
+    set left = right
+    right += 1
+else:
+    right - left value
+    check on a running max
 
 [7,1,5,3,6,4]
-   L       R
-
-p[R] - p[L] = profit
-
-set left = right when it is greater than
-otherwise, increment r
+   | |
 '''
