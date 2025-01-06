@@ -1,20 +1,21 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
+        p1 = 0
+        p2 = 0
+
+        for house in nums:
+            most_money = max(p1 + house,p2)
+            p1 = p2
+            p2 = most_money
         
-        evenHouses = 0
-        oddHouses = 0
-
-        for index,house in enumerate(nums):
-            if index % 2 == 0: # case of even (should handle 0 properly as it is first)
-                evenHouses = max(evenHouses + house, oddHouses)
-            else: # case of odd
-                oddHouses = max(oddHouses + house, evenHouses)
-        
-        return max(evenHouses,oddHouses)
+        return p2
 
 
 
-        '''
-        run a even,odd variable.
-        take their values, but we want to take max b/t either the next even element or odd
-        '''
+'''
+[1,2,3,1]
+ | |
+
+[p1, p2, n (current house we are on) , n+1, n+2, ...]
+
+'''
