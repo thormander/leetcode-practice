@@ -1,27 +1,40 @@
 class Solution:
     def jump(self, nums: List[int]) -> int:
-        result = 0
+
+        min_jumps = 0
 
         left = 0
         right = 0
 
         while right < len(nums) - 1:
-            largest = 0
-            # greedy
+            # iterate through each section
+            max_jump = 0
             for i in range(left,right+1):
-                largest = max(largest,i + nums[i])
+                max_jump = max(max_jump,i + nums[i])
             
-            # update pointers
             left = right + 1
-            right = largest
+            right = max_jump
 
-            result += 1 # up one layer
+            # count as a step after we finish a section
+            min_jumps += 1
         
-        return result
+        return min_jumps
+            
 
-        '''
-        greedy, 'layer-like' - BFS (track where we can jump to almost like a sliding window)
-        2 pointers
-        largest variable -> track farthest we can jump within layer (current index + the value)
-            - set our right pointer to this
-        '''
+'''
+[{2},{3,1},1,4]
+  |   +1
+
+section = index right after the current --> furthest index we can jump to
+
+[{2},{3,1},{1,4}]
+  0   +1    +1
+
+result would just be amount of steps taken
+
+for the sections,
+use 2 pointers to denote the window
+** we know when right pointer reaches last element, we stop counting steps and return **
+
+
+'''
