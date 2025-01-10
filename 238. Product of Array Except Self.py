@@ -1,47 +1,38 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-
-        output = [1] * len(nums) # [1,1,1,1]
-
         pre = 1
         post = 1
 
-        # first pass
-        for i in range(len(nums)):
-            output[i] = pre
-            pre *= nums[i]
-        
-        # second pass -- reverse
-        for i in range(len(nums)-1,-1,-1):
-            output[i] *= post
-            post *= nums[i]
-        
-        return output
+        result = [1] * len(nums)
 
+        # 1st step (l --> r)
+        for i in range(len(nums)):
+            result[i] = pre # set
+            pre *= nums[i] # update
+
+        # 2nd step (r --> l)
+        for i in range(len(nums)-1,-1,-1):
+            result[i] *= post # set
+            post *= nums[i] # update
+        
+        return result
 
 '''
 [1,2,3,4]
 
-1 [1,1,1,1]
-pre 
-1st iteration
-1 [1,1,1,1] 
+pre and post
 
-pre * current index or 0 and update that value
+1st step
 
-2nd iteration will give us a 1 again
+pre start at 1(left to right) --> at the index that is the result of multiplying nums to left of that number
+[1,1,2,6]
 
-3rd 
-1 [1,1,2,1]
-pre = 2
+insert pre to i on the result list, then update it by * the current num we are on
 
-4th
-1 [1,1,2,6]
-pre = 2 * 3 = 6 
+2nd step (go in reverse)
+post start 1
+[24,12,8,6] 
 
-essential do the same in reverse order
-[1,1,2,6] 1
-         post
+SET then UPDATE
+
 '''
-
-
