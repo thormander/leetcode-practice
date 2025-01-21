@@ -1,41 +1,39 @@
 class Solution:
     def isValid(self, s: str) -> bool:
+
+        valid_pars = {"]":"[",")":"(","}":"{"}
         stack = []
 
-        pairs = {')':'(','}':'{',']':'['}
+        # edge case
+        
 
         for char in s:
-            # check if opening par
-            if char in pairs.values():
-                stack.append(char)
-                continue
-            else:
-                # closing
-                # base case
-                if not stack:
-                    return False
-                else:
-                    if stack[-1] == pairs[char]:
-                        stack.pop()
-                        continue
-                    else:
-                        return False
+            if not stack and char in valid_pars.keys():
+                return False
 
+            if char in valid_pars.keys() and stack[-1] == valid_pars[char]: # closed 
+                stack.pop()
+            else:
+                stack.append(char)
         
-        if stack:
-            return False
-        else:
+        if not stack:
             return True
+        else:
+            return False
+
+
 
 '''
-stack
- - where as we find pairs, remove from stack...
- - if our stack is empty, that means we return true (each parantehse has a pair)
+"...()[]{}"
+         |
+[]
 
-dictionary: what pairs with what
+map where we have pairs of parenthesis
+    - searching on closing, we use closing pars as key
 
-loop through
- - if its opening, just add to stack and keep goin
- - if we run into a closing, check top of our stack and see if the are a pair and remove if they are
+stack ds --> last in first out
+ - keep track of our current paraentheis
+ - pay attention to closing parenthees
 
+once we hit end, if stack is not empty --> return false because it means at least one par was not closed
 '''
