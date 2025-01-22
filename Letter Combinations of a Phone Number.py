@@ -1,5 +1,10 @@
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
+        result = []
+
+        if digits == "":
+            return []
+
         hashmap = {
         "2": "abc",
         "3": "def",
@@ -11,32 +16,30 @@ class Solution:
         "9": "wxyz"
         }
 
-        result = []
-
-        def backtrack(index,cur_s):
+        def backtrack(index,currentString):
             # base case
-            if len(digits) == len(cur_s):
-                # we know we found one
-                result.append(cur_s)
+            if len(currentString) == len(digits):
+                result.append(currentString)
                 return
             
-            for char in hashmap[digits[index]]:
-                backtrack(index+1,cur_s + char)
-            
+            for digit in digits[index]:
+                for letter in hashmap[digit]:
+                    backtrack(index+1,currentString+letter)
+        
         backtrack(0,"")
 
-        if digits == "":
-            return []
-        else:
-            return result
+        return result
+
+
+
+
 
 
 '''
-"23"
+backtrack 
 
-      2
-|      \          \
-a       b          c
-| \ \   | \ \      | \ \
-d  e f  d  e f     d  e f
+            " "
+        /    |     \
+       a     b     c
+     d e f  d e f  d e f
 '''
