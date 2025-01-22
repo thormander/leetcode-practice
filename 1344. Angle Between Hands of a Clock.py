@@ -1,16 +1,28 @@
 class Solution:
     def angleClock(self, hour: int, minutes: int) -> float:
-        minute_hand = minutes * 6.0
-        hour_hand = (hour + minutes/60)  * 30.0
+        # minute hand
+        degree_minhand = 6 * minutes
+        # hour hand
+        degree_hourhand = 30 * hour + (minutes / 60) * 30
 
-        diff = minute_hand - hour_hand
-        return min(abs(diff),360-abs(diff))
+        difference = degree_hourhand - degree_minhand
+
+        return min(abs(difference),360-abs(difference))
+
 
 '''
-360 degrees
-each hour = 360/12 = 30 degrees per hour
-each min = 360/60 = 6 degrees per min
+could be float values
 
-for hour, need to normalize the minute hand --> hours
-    - divide minutes to conver to hours and add that to our current hour
+use 12 as starting point
+
+hour = 12, minutes = 30
+
+minute hand degrees
+    - 360 / 60 = 6 degrees per min --> 6 * minutes or 6 * 30 = 180
+
+hour hand (we want to normalize it to minutes to hour)
+    - 360 / 12 = 30 degrees per hour -->  30min/60min = 1/2 an hour * 30 degrees per hour 
+
+min(360 - | degree from hour hand - degrees from minute |, | degree from hour hand - degrees from minute |)
+
 '''
