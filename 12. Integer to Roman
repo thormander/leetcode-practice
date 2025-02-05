@@ -1,0 +1,38 @@
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        romans = [
+            ["I", 1],
+            ["IV", 4],
+            ["V", 5],
+            ["IX", 9],
+            ["X", 10],
+            ["XL", 40],
+            ["L", 50],
+            ["XC", 90],
+            ["C", 100],
+            ["CD", 400],
+            ["D", 500],
+            ["CM", 900],
+            ["M", 1000]
+        ]
+
+        result = ""
+        for roman, value in reversed(romans):
+            if num // value > 0:
+                amount = num // value
+                result += (amount * roman)
+                # we need to mod
+                num = num % value
+        
+        return result
+
+            
+
+'''
+go through reverse order the romans list
+we check how many times it is divisible to find how many of that letter we need
+after we get that, make sure to mod it so we do not look at that level anymore.
+
+# 4100 // 1000 = 4 --> add 4 M's then mod
+# 100
+'''
