@@ -1,35 +1,36 @@
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-
-        clean = ""
-
-        # clean up string s
-        for char in s:
-            if (ord('a') <= ord(char.lower()) <= ord('z')):
-                clean += char.lower()
-            elif (ord('0') <= ord(char) <= ord('9')):
-                clean += char
-            else:
-                continue
-
         left = 0
-        right = len(clean) - 1
-        
-        # check palindrome
-        while left < right:
-            if clean[left] != clean[right]:
-                return False
-            else:
+        right = len(s) - 1
+
+        while left <= right:
+            # is pointer on a alpha numeric character
+            while left <= right and not s[left].isalnum():
                 left += 1
+            while right >= left and not s[right].isalnum():
                 right -= 1
-                continue
+            
+            # do the comparison
+            if left <= right and s[left].lower() != s[right].lower():
+                return False
+            
+            left += 1
+            right -= 1
         
         return True
 
 
 '''
-make sure we are using lowercase
-skip any / remove non alphanumeric characters
+1. clean up original string
+    - upper to lower
+    - remove commas, colons, ...
+2. get rid of spaces
+3. 2 pointer check
 
-it CAN include numbers
+-------
+more effcient
+ - start with 2 points
+ - first make sure its an actual letter
+    - if they are make it lower case and compare the 2
+    - skip any non letters, up until we hit another letter
 '''
