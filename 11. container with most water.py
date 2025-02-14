@@ -2,33 +2,36 @@ class Solution:
     def maxArea(self, height: List[int]) -> int:
         left = 0
         right = len(height) - 1
-        
-        maxArea = 0
+
+        most_water = 0
 
         while left < right:
-            currentArea = min(height[left],height[right]) * (right-left)
+            # calc amountof water b/t pointers
+            heightContainer = min(height[left],height[right])
+            lengthContainer = right - left
 
-            # check if larger
-            maxArea = max(currentArea,maxArea)
+            area = heightContainer * lengthContainer
 
-            if height[left] > height[right]:
-                right -= 1
-                continue
-            elif height[left] < height[right]:
+            # compare with running max
+            most_water = max(most_water,area)
+
+            if height[right] > height[left]:
                 left += 1
-                continue
             else:
-                left += 1
-        return maxArea
+                right -= 1
+            
+        
+        return most_water
+
 
 '''
-have a running max that we will return
+2 pointers
 
-2 pointers, now difficulty is determing how to increment and decrement our pointers
+running max area
 
-find area, which is we take the least between 2 lines and times by the indexes minus from each other
+[1,8,6,2,5,4,8,3,7]
+   |             | 
 
-we increment left if the next is bigger, or the right if its bigger
- - otherwise just increment left
-
+increment left if smaller than right height
+otheriwse decrement right
 '''
