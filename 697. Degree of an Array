@@ -1,0 +1,47 @@
+class Solution:
+    def findShortestSubArray(self, nums: List[int]) -> int:
+        occurances = {} # degree of numbers --> key: num | value: occurances
+        start_index = {}
+        end_index = {}
+        result = [] # store candidate subarrays
+
+        # populate occruances and start/end indexes
+        for i,v in enumerate(nums):
+            if v not in occurances:
+                occurances[v] = 1
+                # since first time seing this, also do start/end
+                start_index[v] = i
+                end_index[v] = i # could be case where its single digit
+            else:
+                occurances[v] += 1
+                end_index[v] = i # reassign to new ending
+        
+        degree = max(occurances.values())
+        
+        # find candidate subarrays
+        for key,val in occurances.items():
+            # only care about nums that have our degree
+            if val == degree:
+                # pot. candidate
+                lengthSubarray = end_index[key] - start_index[key] + 1
+                result.append(lengthSubarray)
+        
+        # take smallest subarray that fulfills the degree
+        return min(result)
+
+
+'''
+hashmap -> store counts
+        -> store start index
+        -> store ending index
+
+then take max degree from counts
+
+go through counts again
+    get length of current array by subtracting indexes
+    append to result anytime we see occurance value == max degree (potential candidate)
+
+take the minimum length from result (as this is our min subarray)
+
+
+'''
