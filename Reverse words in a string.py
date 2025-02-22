@@ -1,13 +1,13 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
-
         words = s.split()
+        words.reverse()
 
-        return " ".join(reversed(words))
-        
+        return " ".join(words)
 
-        '''
-        Extract the words sepearted by a space into an array
 
-        reverse our list, and join on " "
-        '''
+'''
+extract words out (basically seperate based on whitespce) --> .split()
+
+reverse order and put a space between
+'''
