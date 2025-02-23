@@ -1,37 +1,30 @@
 class Solution:
     def maxArea(self, height: List[int]) -> int:
         left = 0
-        right = len(height) - 1
+        right = len(height)-1
 
-        most_water = 0
+        result = 0
 
         while left < right:
-            # calc amountof water b/t pointers
-            heightContainer = min(height[left],height[right])
-            lengthContainer = right - left
+            # find area
+            area = (right-left) * min(height[left],height[right])
+            result = max(area,result)
 
-            area = heightContainer * lengthContainer
-
-            # compare with running max
-            most_water = max(most_water,area)
-
-            if height[right] > height[left]:
+            if height[left] <= height[right]:
                 left += 1
             else:
                 right -= 1
-            
         
-        return most_water
+        return result
+
 
 
 '''
-2 pointers
+find max water
 
-running max area
+2 poitners, start and end
+    - maximize potential area
 
-[1,8,6,2,5,4,8,3,7]
-   |             | 
 
-increment left if smaller than right height
-otheriwse decrement right
+increment/decremetn the smaller bar
 '''
