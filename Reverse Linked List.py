@@ -5,7 +5,7 @@
 #         self.next = next
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        left = None # start it at None or to the left of head
+        left = None # to the left of head
         right = head
 
         while right:
@@ -17,12 +17,9 @@ class Solution:
         return left
 
 
-
-
 '''
-given a list,
-just need to reverse
+reverse the list
+2 pointers
 
-use pointers to do this
- - need a left and right
+left = None, right = head
 '''
