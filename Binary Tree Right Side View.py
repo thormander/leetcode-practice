@@ -7,41 +7,41 @@
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
 
-        if not root:
-            return []
-
         queue = deque()
-        queue.append(root)
+        result = [] # store values of nodes we can see
 
-        result = []
+        if root:
+            queue.append(root)
 
         while queue:
-            layer_size = len(queue)
-            for i in range(layer_size):
+
+            # check right most value in the layer while it is complete
+            result.append(queue[-1].val)
+            
+            # processing the layer
+            for i in range(len(queue)):
                 node = queue.popleft()
 
                 if node.left:
                     queue.append(node.left)
+                
                 if node.right:
                     queue.append(node.right)
-                
-                if i == layer_size - 1:
-                    result.append(node.val)
-            
-
             
         
         return result
 
-        
 
 
-        
+
+
 
 '''
-essentially, taking right most value for each layer
+only output nodes that can be seen from right
 
-BFS --> since we need to go layer by layer
-    - first get length of queue then iterate through it --> we know when we are in another layer (or at end of current)
-    - when we reach end of our layer (or after we are done processing it), grab it and add to result list
+BFS
+ - build up the layer, once the layer is done --> get the right most value from the queue
+
+result = []
+queue. = [1]
 '''
