@@ -6,35 +6,40 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
+        self.result = 0 # amount of good nodes
 
-        self.result = 0
-        
-        def dfs(node,maxNum):
+        def DFS(node,max_seen):
             # base case
             if not node:
                 return 0
             
-            # check if our current node is a good node
-            if node.val >= maxNum:
+            # check if good node
+            if node.val >= max_seen:
                 self.result += 1
             
-            # dfs
-            dfs(node.left,max(maxNum,node.val))
-            dfs(node.right,max(maxNum,node.val))
+            # recursion case
+            DFS(node.left,max(max_seen,node.val))
+            DFS(node.right,max(max_seen,node.val))
         
-        dfs(root,root.val)
+        DFS(root,root.val)
 
         return self.result
 
 
 
+
+
 '''
 DFS
-running result
+result = keeps track of good nodes we run into
 
-make another function to pass the max number down to children nodes when we recurse:
-    - base case is if node is none, just return 0
-    - check if current node value > value passed down from recursion
-        - if it is result += 1
-    - dfs down left and right
+need to worry about any previous nodes that are bigger
+    - keep a running max on our previous nodes
+
+DFS function(node, previous max value we have ran into):
+    base case
+    check if current node is actually greater than max
+        if it is we found a good node
+    recursion case
 '''
+        
