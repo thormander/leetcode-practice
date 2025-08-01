@@ -1,37 +1,32 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        prefix = 1
-        postfix = 1
+        pre = 1
+        post = 1
 
         result = [1] * len(nums)
 
-        # 1st pass
-        for i,v in enumerate(nums):
-            result[i] *= prefix
-            prefix *= v
-        
-        # 2nd pass
+        # first pass
+        for i in range(0,len(nums)):
+            result[i] *= pre
+            pre *= nums[i]
+
+ 
+        # second pass (in reverse)
         for i in range(len(nums)-1,-1,-1):
-            result[i] *= postfix
-            postfix *= nums[i]
-        
+            result[i] *= post
+            post *= nums[i]
+
         return result
 
 
-
-
-
 '''
-[1,1,2,6] 1
+pre             post
+24    [1,2,3,4]   24
+      [24,12,8,6]
+    
+first pass
+    - setting that index = to what pre is , then update pre after
 
-1 [1,1,2,6] -- 1st pass
-[24,12,8,6] 12
-
-[1,2,3,4]
-
-prefix, postfix --> start with 1
-1st pass go in order
-2nd pass go in reverse
-
-times prefix to next, then update from nums
-'''  
+second
+    - update result with index val * post , update post after
+'''
