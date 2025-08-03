@@ -1,36 +1,47 @@
 class Solution:
     def isPalindrome(self, s: str) -> bool:
+
         left = 0
         right = len(s) - 1
 
         while left <= right:
-            # is pointer on a alpha numeric character
-            while left <= right and not s[left].isalnum():
+            # left
+            while left < right and s[left].isalnum() == False:
+                # skip non valid chars
                 left += 1
-            while right >= left and not s[right].isalnum():
+
+            # right
+            while left < right and s[right].isalnum() == False:
+                # skip non valid chars
                 right -= 1
             
-            # do the comparison
-            if left <= right and s[left].lower() != s[right].lower():
+            # compare
+            if s[left].lower() != s[right].lower():
                 return False
-            
+
+            # if equal just move the pointers
             left += 1
             right -= 1
-        
+            
         return True
 
-
 '''
-1. clean up original string
-    - upper to lower
-    - remove commas, colons, ...
-2. get rid of spaces
-3. 2 pointer check
+make sure we are comparing the right letters/numbers
+    - also skip non valid characters
 
--------
-more effcient
- - start with 2 points
- - first make sure its an actual letter
-    - if they are make it lower case and compare the 2
-    - skip any non letters, up until we hit another letter
+2 pointers
+    - at the start and end of the string
+
+
+"Race a car"
+    | |
+
+
+Cases to skip:
+    - is it nonvalid char
+
+compare
+    - both same case
+    - and our pointers aren't crossed
+
 '''
