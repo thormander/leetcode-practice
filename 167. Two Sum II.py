@@ -4,28 +4,29 @@ class Solution:
         right = len(numbers) - 1
 
         while left < right:
-            # when we find answere
-            if (numbers[left] + numbers[right] == target):
-                return [left+1,right+1]
-            
-            # do our check
-            if (numbers[left] + numbers[right]) < target:
+            current_sum = numbers[left] + numbers[right]
+
+            if current_sum > target:
+                # need to decrease sum
+                right -= 1
+            elif current_sum < target:
+                # need to increase sum
                 left += 1
             else:
-                right -= 1
+                return [left+1,right+1] 
 
 '''
-"increasing" in order
+2 pointers
+    - one at both ends
 
-use 2 pointers, one at start and one at end
+[2,7,11,15], target = 9
+ |
+   |
 
-check if value is our target
-
-if it isn't:
-    is it greater?
-        then we want to decrement our right
-
-    is it less?
-        increase our left pointer
-
+sum @ the 2 pointers
+    if sum > target
+        decrease the right pointer (this shrinks our sum)
+    if sum < target
+        increase left pointer (this will incresase our suim)
+    we get teh answer
 '''
