@@ -1,54 +1,66 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+
+        result = []
+
+        left = 0 # primary
+
+        # 1. sort input
         nums.sort()
-        results = []
 
-        for i,v in enumerate(nums):
-            # check duplicate
-            if (i != 0) and (v == nums[i-1]):
-                continue # skip this iteration
+        while left < len(nums):
+            # make sure left is not same as previous 
+            if left != 0 and (nums[left] == nums[left-1]):
+                left += 1
+                continue
 
-            left = i + 1
+            middle = left + 1
             right = len(nums) - 1
 
-            while left < right:
-                # check duplicates again
-                if (left != i + 1) and (nums[left-1] == nums[left]):
-                    left += 1
-                    continue
-                elif (right != len(nums) - 1) and (nums[right + 1] == nums[right]):
-                    right -= 1
-                    continue
+            while middle < right:
+                cur_sum = nums[left] + nums[middle] + nums[right]
 
-                # check sum
-                currentSum = v + nums[left] + nums[right]
-                
-                if (currentSum == 0):
-                    results.append([v,nums[left],nums[right]])
-                    left += 1
+                # check against cur_sum
+                if cur_sum > 0:
                     right -= 1
-                elif (currentSum > 0):
-                    right -= 1
+                elif cur_sum < 0:
+                    middle += 1
                 else:
-                    left += 1
+                    result.append([nums[left],nums[middle],nums[right]])
+
+                    # also skip duplicates for these 2
+                    while middle < right and (nums[middle] == nums[middle+1]):
+                        middle += 1
+                    while middle < right and (nums[right] == nums[right-1]):
+                        right -= 1
+                    
+                    middle += 1
+                    right -= 1
             
-        return results
-
-
+            left += 1
+            
+        return result
             
 
-        
 '''
-X _ _
+[-1,0,1,2,-1,-4]
+[-4,-1,-1,0,1,2] -> sorted
+        |
+           |
+              |
 
-sort it first, ( we can use 2 pointers to help us)
+3 pointers
+-4 --> 0
+add our poitners
+    if its > 0:
+        decremetn the right pointer
+    if its < 0:
+        incremetn the middle pointer
+    else
+        add to result list
+    
 
-we first iterate through nums,
-get the first number, BUT we must check for duplicates:
-    if number before is same, we need to skip.
-same goes for other 2.
+sort it first so we can do it similar to 2 sum
 
-Break this down essentially into a 2 sum after that first step.
-
-Sorting will let us handle the duplicates
+need to skip any same numbers @ all pointers
 '''
