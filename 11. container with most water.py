@@ -3,28 +3,37 @@ class Solution:
         left = 0
         right = len(height)-1
 
-        result = 0
+        result = -1
 
         while left < right:
-            # find area
-            area = (right-left) * min(height[left],height[right])
-            result = max(area,result)
+            # get current area
+            area = (min(height[left],height[right])) * (right - left)
 
+            result = max(result,area)            
+            # move the pointers
             if height[left] <= height[right]:
                 left += 1
             else:
                 right -= 1
-        
+
+
         return result
 
-
-
 '''
-find max water
+[1,8,6,2,5,4,8,3,7]
+   |            
+                 |
 
-2 poitners, start and end
-    - maximize potential area
+1. area of 8
+2. area of 49
+...
 
 
-increment/decremetn the smaller bar
+calc the current area
+    - (take the lowest height of the 2) * (right - left pointer)
+
+how to move pointers?
+    - take the smaller height of the 2, and shift that one
+
+compare to the result, and check if current area we have is bigger
 '''
