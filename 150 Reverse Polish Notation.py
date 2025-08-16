@@ -1,37 +1,46 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
-        operations = ['+','-','*','/']
 
-        stack = [] # store integers here instead of strings
+        operators = set(["+","-","*","/"])
+
+        stack = []
 
         for char in tokens:
-            if char not in operations:
-                stack.append(int(char))
+            # number?
+            if char not in operators:
+                stack.append(char)
             else:
-                last = stack.pop()
-                secondlast = stack.pop()
+                # pop the top 2 nums
+                numR = int(stack.pop())
+                numL = int(stack.pop())
 
-                # logic for each operator
-                if char == '+':
-                    temp = last + secondlast
-                    stack.append(temp)
-                elif char == '-':
-                    temp = secondlast - last
-                    stack.append(temp)                    
-                elif char == '*':
-                    temp = last * secondlast
-                    stack.append(temp)
-                else: # division '/'
-                    temp = int(secondlast / last)
-                    stack.append(temp)
-        return stack[-1]
+                # it is an operator
+                if char == "+":  
+                    stack.append(str(numL + numR))
+                
+                if char == "-":
+                    stack.append(str(numL - numR))
 
+                if char == "*":
+                    stack.append(str(numL * numR))
 
-            
+                if char == "/":
+                    stack.append(str(int(numL / numR)))
 
-        
+        return int(stack[0])
 '''
-use stack
+tokens = ["2","1","+","3","*"]
+                           |
 
-[3, 3] *  
+stack [9]
+
+hit "+"
+    pop 2 times
+    add those 2 numbers
+    add back in stack
+
+
+use a stack
+
+any time we see a operator, take the prev 2 numbers (on the stack) and do the operation
 '''
