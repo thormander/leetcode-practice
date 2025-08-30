@@ -1,36 +1,45 @@
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        rows = len(matrix)
-        cols = len(matrix[0])
 
-        topRow = 0
-        botRow = rows - 1
+        len_rows = len(matrix[0])
 
-        while topRow <= botRow:
-            midrow = (topRow + botRow) // 2
+        for row in matrix:
+            if row[-1] > target:
+                # case where we do the binary search
+                left = 0
+                right = len_rows - 1
 
-            leftVal = matrix[midrow][0]
-            rightVal = matrix[midrow][cols-1]
-
-            if target < leftVal:
-                botRow = midrow - 1
-            elif target > rightVal:
-                topRow = midrow + 1
-            else:
-                break
+                while left <= right:
+                    midpoint = (right + left) // 2
+                    
+                    if row[midpoint] > target:
+                        # go left
+                        right = midpoint - 1
+                    elif row[midpoint] < target:
+                        # go right
+                        left = midpoint + 1
+                    else:
+                        return True
                 
-        # second binary search
-        left = 0
-        right = cols - 1
-
-        while left <= right:
-            mid = (right + left) // 2
-
-            if matrix[midrow][mid] > target:
-                right = mid - 1
-            elif matrix[midrow][mid] < target:
-                left = mid + 1 
+                return False
+            
+            elif row[-1] < target:
+                continue
             else:
                 return True
-        
+
         return False
+
+'''
+binary search
+
+first check top of the row
+    - if top_num is > target
+        stay in the row and do the search
+    - elif its < target
+        go to next row
+    - else
+        return true
+
+return false
+'''
