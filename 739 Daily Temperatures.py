@@ -1,31 +1,29 @@
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
-
         result = [0] * len(temperatures)
-        stack = [] # [[temp,index],....]
+        stack = []
 
-        for i,v in enumerate(temperatures):
-            # check if greater that top of stack
-            while stack and stack[-1][0] < v:
-                poppedTemp, poppedIndex = stack.pop()
-                result[poppedIndex] = i - poppedIndex
-        
-            stack.append([v,i])
+        for index,temp in enumerate(temperatures):
+            if not stack:
+                stack.append((temp,index))
+                continue
+            
+            while stack and (temp > stack[-1][0]):
+                poppedTuple = stack.pop()
+                result[poppedTuple[1]] = index - poppedTuple[1]
+
+            stack.append((temp,index))
         
         return result
 
 
 
-        
-
 
 '''
-result[i] == amt of days till it gets warmer, otherwise 0
-
 [30,40,50,30,60]
-              |
-[1,1,2,1,0]
+    |
 
-stack = [[60,4]]
+[1,0,0,0]
 
+[(30,0)]
 '''
