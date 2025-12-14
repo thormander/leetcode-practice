@@ -1,7 +1,6 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        # base case
-        if len(prices) == 1:
+        if len(prices) < 2:
             return 0
 
         result = 0
@@ -9,26 +8,28 @@ class Solution:
         right = 1
 
         while right < len(prices):
-            if prices[left] > prices[right]:
+            # first calc current profit
+            profit = prices[right] - prices[left]
+            result = max(result,profit)
+
+            # second update pointers
+            if (prices[left] > prices[right]):
                 left = right
-            else:
-                candidate = prices[right] - prices[left]
-                result = max(result,candidate)
+            
             right += 1
 
-        
-        return result
+
+        return result     
 
 '''
-2 pointers
+result = running max
 
-if val@left > right:
-    set left = right
-    right += 1
-else:
-    right - left value
-    check on a running max
+left @ index 0
+right @ index 1
 
-[7,1,5,3,6,4]
-   | |
+shift left to right if its less, and increase right by 1
+
+
+
+
 '''
