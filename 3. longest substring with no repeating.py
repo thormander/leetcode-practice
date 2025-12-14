@@ -2,36 +2,31 @@ class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
 
         result = 0
-
         left = 0
-
+        right = 0
         hashset = set()
 
-        for right in range(len(s)):
-            # handle duplicates
+        while right < len(s):
+            # update our window/hashset    
             while s[right] in hashset:
                 hashset.remove(s[left])
                 left += 1
-            
-            hashset.add(s[right])
 
-            result = max(result,(right-left)+1)
+            hashset.add(s[right])
+            result = max(result,len(hashset))
+            right += 1
+            
         
         return result
 
 
-            
-
-
-
-    
 '''
-longest substring
+set (track if a letter we are going to add to our windows is valid)
+set is our window
 
-no repeating characters --> hashset for this
+2 pointers:
+left = 0 right = 0
 
-running max for result
-
-"abcabcbb"
-  L R
+intilize set with those 2,
+shift left pointer when thers a duplicate (which will be added via right pointer)
 '''
