@@ -1,42 +1,27 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        hashmap_s = {} # key: 'letter' | value: occurance
-        hashmap_t = {} # key: 'letter' | value: occurance
+        hashmap_s = {} # key: char | value: occurances
+        hashmap_t = {}
 
-        len_s = 0
-        len_t = 0
-        # loop through s
+        # S
         for char in s:
-            len_s += 1
             if char in hashmap_s:
                 hashmap_s[char] += 1
             else:
                 hashmap_s[char] = 1
 
-        # loop through t
+        # T
         for char in t:
-            len_t += 1
             if char in hashmap_t:
                 hashmap_t[char] += 1
             else:
-                hashmap_t[char] = 1        
-
-        # make sure they are same size
-        if len_s != len_t:
-            return False
+                hashmap_t[char] = 1
         
-        # compare
         return hashmap_s == hashmap_t
 
+
 '''
-count the occurances of each of the letters
+dictionary --> key: char | value: occurances
 
-we can compare the counts
-
-2 hashmaps --> key: 'letter' | value: occurance
-
-loop through both s & t (immeadatly return false if not equal length):
-    fill up their respective hashmap
-
-compare the hashmaps
+get occurances of both and see if they are equal
 '''
