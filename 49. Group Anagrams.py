@@ -1,41 +1,33 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        hashmap = {} # key: [0,0,0...] (26 0's) | value: [nat,tan] 
 
-        for string in strs:
-            # do the 26 0's to represent alphabet
-            count = [0] * 26
+        dictionary = {}
+        result = []
+
+        for s in strs:
+            # get char count
+            key = [0] * 26 # represent alphabet
+
+            for char in s:
+                i = ord(char)- ord('a')
+                key[i] += 1
             
-            # get occurances
-            for char in string:
-                position = ord(char) - ord('a')
-                count[position] += 1
-            
-            # add to hashmap
-            if tuple(count) in hashmap:
-                hashmap[tuple(count)].append(string)
+            if tuple(key) not in dictionary:
+                dictionary[tuple(key)] = [s]
             else:
-                hashmap[tuple(count)] = [string]
+                dictionary[tuple(key)].append(s)
+
+        for li in dictionary.values():
+            result.append(li)    
         
-        return list(hashmap.values())
-
-
-
+        return result
+        
 
 '''
-anagram - have exact same letters and letter count
+list of anagram lists
 
-hashmap key: [0,0,0...] (26 0's) | value: [nat,tan] 
-    - key holds the alphabet all starting at 0 so we know the occurances
+hashmap --> key: list of chars present | value: list of anagrams
 
-loop:
-    fill our hashmap
-    do the 26 0's list
-    count the letter occurances
-        - to match correct index, use ord(current letter) - ord('a')
-    
-    now we have a key of occurances + a value of the anagram we counted
-
-return the values in our hashmap
-
+count chars -> [0] * 26 letters in alphabet; we increment the index corresponding to letter
+    - ord to get indexes of each char/letter
 '''
