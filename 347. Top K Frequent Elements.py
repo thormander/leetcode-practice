@@ -1,50 +1,47 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        hashmap = {} # key: number | value: occurance
+        numsToCount = {}
 
-        # get counts
+        # populate our dictionary
         for num in nums:
-            if num in hashmap:
-                hashmap[num] += 1
+            if num not in numsToCount:
+                numsToCount[num] = 1
             else:
-                hashmap[num] = 1
-        
-        # bubble sort list and populate
-        bubble = [[] for i in range(len(nums)+1)]
+                numsToCount[num] += 1
 
-        for key,val in hashmap.items():
-            bubble[val].append(key)
-        
-        
-        # iterate in reverse and get result
+        # dict --> heap
+        heap = []
+
+        for key,value in numsToCount.items():
+            heap.append((-value,key))
+
+        heapq.heapify(heap)
+
+        # get max val and go up to k
         result = []
 
-        for i in range(len(bubble)-1,0,-1):
-            for num in bubble[i]:
-                result.append(num)
-                if len(result) == k:
-                    return result
-                
+        for i in range(k):
+            value, key = heapq.heappop(heap) # value is negative
+            result.append(key)
+        
+        return result
 
 
 
 '''
-bubble sort
- - indexes represent the occurance
+k = top most frequent numbers 
 
- [1,1,1,2,2,3]
+count of each num --> track this
 
+dictionary --> key: num  value: count
 
- [0,1,2,3,4,5,6]. --> [[],[3],[2],[1],[],[],[]]
-  _ _ _ _ _ _ _
+[1,1,1,2,2,3]. k = 2
+        |
+{1:3,2:2,3:1} --> we have to sort to get max
 
- 3: [1,3]
- 2: [2]
- 1: [3]
+we need a heap --> consistently grabbing the max
+ -- so instead of dict, use list and append tuples --> heapify
 
-get counts of each number --> hashmap
+python defaults heap --> min heap, but we need MAX so negate all values
 
-make our bubble sort list
-
-go in reverse to get the top k on our bubble sort array
 '''
