@@ -1,69 +1,59 @@
-class Codec:
+class Solution:
+
     def encode(self, strs: List[str]) -> str:
-        """Encodes a list of strings to a single string.
-        """
-        encoded_string = ""
+        # length + #
+        encodedString = ""
 
-        for s in strs:
-            encoded_string += str(len(s)) + ":" + s
+        for string in strs:
+            encodedString += str(len(string)) + "#" + string
 
-        return encoded_string
+        return encodedString
 
-        
 
     def decode(self, s: str) -> List[str]:
-        """Decodes a single string to a list of strings.
-        """
         result = []
+        i = 0
+        j = 0
 
-        p1 = 0
-        p2 = 0
-
-        while p2 < len(s):
-            if s[p2] == ":":
-                # get length
-                length = int(s[p1:p2])
-
-                # add to result
-                result.append(s[p2+1 : p2+1+length])
-
-                # fix pointer positions
-                p1 = p2+1+length
-                p2 = p1
+        while i < len(s):
+            if s[i] != "#":
+                i += 1
+                continue
             
-            p2 += 1
-        
-        print(result)
+            # we should be on the '#'
+            length = int(s[j:i])
+            j = i + length + 1
+
+            # string split to grab individual string
+            result.append(s[i+1:j])
+            
+            # update pointer past string we extracted
+            i = j            
+
         return result
-
-
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.decode(codec.encode(strs))
+            
+        
 
 '''
-special character --> out since it covers all valid ascii characters
+list of strings -> string -> list of strings
 
 encode:
-    get the length of each string and store it so we know where the string ends
-
-    say given ["Hello","World"]
-
-    we return "5:Hello5:World"
+    can easily just join the list and we will get the encoded
 
 decode:
-    look for a number + :
-    we know where to start counting
+    where to split the strings?
 
-    "5:Hello5:World":
-p1          |
-p2           |
-    
-    if p2 == :
-        get the length of the word
-        add to our result --> string[p2+1 : p2+1+length]
-        move pointers accordingly
-            p1 = p2+1+length
-            p2 = p1
-    if it isnt, just keep increment p2
+
+["abc","bc"]
+
+store length of string + some seperator 
+
+3#abc2#bc
+    |
+
+string[i+1,i+3+1] = abc --> add this to a list
+
+3#abc2#bc
+     |
+     |
 '''
