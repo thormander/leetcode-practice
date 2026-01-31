@@ -1,25 +1,30 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        dictionary = {} # key: num, value: index
+        # hashmap - key: number | value: index
+        hashmap = {}
 
         for i,v in enumerate(nums):
+            # check if valid pair
+            valid_pair = target - v
+            
+            if valid_pair in hashmap:
+                return [i,hashmap[valid_pair]]
+            
+            hashmap[v] = i
 
-            check = target - v
 
-            if check in dictionary:
-                return [i,dictionary[check]]
-            else:
-                dictionary[v] = i
-
-        
 
 '''
-returning the INDEXes
+store elements we have seen
+- hashmap
 
-[2,7,11,15] target = 9
- | 
+take current element we are on
 
-target - current num --> is this in our set? 
-    - YES, return indexes
-    - NO, do not return
+map - [2]
+[2,7,11,15]
+   |
+
+ target - current_num --> if this is in our set, we found the 2 numbers
+
+ returning index --> store num with index
 '''
