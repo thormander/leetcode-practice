@@ -1,27 +1,28 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        hashmap_s = {} # key: char | value: occurances
-        hashmap_t = {}
+        # populate our maps with counts
+        s_map = self.populate_helper(s) 
+        t_map = self.populate_helper(t)
 
-        # S
-        for char in s:
-            if char in hashmap_s:
-                hashmap_s[char] += 1
-            else:
-                hashmap_s[char] = 1
+        # compare
+        return s_map == t_map
 
-        # T
-        for char in t:
-            if char in hashmap_t:
-                hashmap_t[char] += 1
-            else:
-                hashmap_t[char] = 1
+    def populate_helper(self,string: str):
+        hashmap = {} # key: char | value: occurances
         
-        return hashmap_s == hashmap_t
-
+        for char in string:
+            if char not in hashmap:
+                hashmap[char] = 1
+            else:
+                hashmap[char] += 1
+        
+        return hashmap
 
 '''
-dictionary --> key: char | value: occurances
+count each of the letters from both strings
+    - use dictionary to track letter to count
+    - if both dictionaries same, return true
 
-get occurances of both and see if they are equal
+1. populate map for both s and t
+2. compare the maps
 '''
