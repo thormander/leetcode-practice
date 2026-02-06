@@ -4,44 +4,31 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-
-        # handle base case
-        if root == None:
+        # base case
+        if not root:
             return None
         
-        queue = deque([root]) # first start with root
+        # the swap
+        temp = root.left
+        root.left = root.right
+        root.right = temp
 
-        # do bfs
-        while queue:
-            cur_node = queue.popleft()
+        # DFS
+        self.invertTree(root.left)
+        self.invertTree(root.right)
 
-            # reverse it
-            temp = cur_node.right
-            cur_node.right = cur_node.left
-            cur_node.left = temp
-
-            # if it has a child
-            if cur_node.right:
-                queue.append(cur_node.right)
-            
-            if cur_node.left:
-                queue.append(cur_node.left)
-        
         return root
 
 
-            
-
-
 
 '''
-start from root
-just swap left with right
+recursion down to bottom of tree
+ - DFS
+ - BASE CASE -> None
 
-either do BFS or DFS --> BFS
-
-deque = first add root to
-
-'''
+swap children of current node
+    - keep going down until we reach None
+'''  
