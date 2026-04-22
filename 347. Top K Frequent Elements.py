@@ -1,47 +1,36 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        numsToCount = {}
-
-        # populate our dictionary
+        
+        # get counts of the numbers
+        count = {} # key: number | value: occurances
         for num in nums:
-            if num not in numsToCount:
-                numsToCount[num] = 1
+            if num in count:
+                count[num] += 1
             else:
-                numsToCount[num] += 1
-
-        # dict --> heap
+                count[num] = 1
+        
+        # start making heap
         heap = []
-
-        for key,value in numsToCount.items():
-            heap.append((-value,key))
-
-        heapq.heapify(heap)
-
-        # get max val and go up to k
+        for num in count.keys():
+            heapq.heappush(heap,(-count[num],num))
+        
+        
+        # grab top k
         result = []
-
         for i in range(k):
-            value, key = heapq.heappop(heap) # value is negative
-            result.append(key)
+            result.append(heapq.heappop(heap)[1])
         
         return result
 
-
-
+        
 '''
-k = top most frequent numbers 
+most frequent --> heap (max)
 
-count of each num --> track this
+make the heap based on occurance of each num
 
-dictionary --> key: num  value: count
+(frequency,number)
 
-[1,1,1,2,2,3]. k = 2
-        |
-{1:3,2:2,3:1} --> we have to sort to get max
+create heap based of frequency
 
-we need a heap --> consistently grabbing the max
- -- so instead of dict, use list and append tuples --> heapify
-
-python defaults heap --> min heap, but we need MAX so negate all values
-
+heap pop to get k most (BUT --> negate all the frequencies to get a 'max-heap')
 '''
